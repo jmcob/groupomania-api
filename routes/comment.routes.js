@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const commentCtrl = require("../controllers/comment.ctrl");
+const auth = require("../middleware/auth");
 
 // route for login and signup : user.
 router.post("/", commentCtrl.new);
