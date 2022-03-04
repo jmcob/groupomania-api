@@ -3,7 +3,7 @@ const Like = db.like;
 
 exports.like = async (req, res, next) => {
     await Like.create({
-        posts_id: req.body.postId,
+        posts_id: req.body.post_id,
         users_id: req.body.user_id,
     })
         .then((data) => res.status(201).json({ data }))
