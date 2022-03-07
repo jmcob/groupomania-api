@@ -3,9 +3,9 @@ const Comment = db.comment;
 
 exports.new = async (req, res, next) => {
     await Comment.create({
-        posts_id: req.body.posts_id,
+        posts_id: req.body.post_id,
         text: req.body.text,
-        users_id: req.body.users_id,
+        users_id: req.body.user_id,
     })
         .then((data) => res.status(201).json({ data }))
         .catch((error) => res.status(400).json({ error }));
