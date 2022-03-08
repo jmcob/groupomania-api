@@ -88,3 +88,12 @@ exports.getOne = async (req, res, next) => {
         .then((data) => res.status(200).json({ data }))
         .catch((error) => res.status(400).json({ error }));
 };
+
+exports.updateOne = async (req, res, next) => {
+    const updatedUser = await User.findOne({ where: { id: req.params.id } });
+    updatedUser.username = req.body.username;
+    await updatedUser
+        .save()
+        .then((data) => res.status(200).json({ data }))
+        .catch((error) => res.status(400).json({ error }));
+};
