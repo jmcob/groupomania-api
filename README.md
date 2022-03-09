@@ -1,5 +1,5 @@
 # groupomania-api
-This is groupomaania's api
+This is groupomania's api
 
 ## install repo :
 ```
