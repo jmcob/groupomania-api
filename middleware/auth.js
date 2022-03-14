@@ -8,7 +8,13 @@ module.exports = (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.JWT);
 
         const user_id = decodedToken.user_id;
-
+        const exp = decodedToken.exp;
+        const dateExp = new Date(exp * 1000);
+        const dateNow = Date.now();
+        console.log(dateExp, dateNow);
+        if (dateExp < dateNow) {
+            throw "Token expired";
+        }
         if (
             (req.body.user_id && req.body.user_id === user_id) ||
             (req.body.user_id && req.body.admin === true)
