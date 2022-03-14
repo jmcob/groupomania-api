@@ -2,6 +2,10 @@ const db = require("../models");
 const Like = db.like;
 
 exports.like = async (req, res, next) => {
+    const alreadyLiked = await Like.findOne({
+        where: { posts_id: req.body.post_id, users_id: req.body.user_id },
+    });
+    if (alreadyLiked) return alreadyLiked;
     await Like.create({
         posts_id: req.body.post_id,
         users_id: req.body.user_id,

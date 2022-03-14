@@ -21,6 +21,7 @@ exports.signup = (req, res, next) => {
                     email: req.body.email,
                     username: req.body.username,
                     password: hash,
+                    admin: false,
                 })
                     .then((data) =>
                         res.status(201).json({
@@ -95,5 +96,11 @@ exports.updateOne = async (req, res, next) => {
     await updatedUser
         .save()
         .then((data) => res.status(200).json({ data }))
+        .catch((error) => res.status(400).json({ error }));
+};
+
+exports.deleteOne = async (req, res, next) => {
+    await User.destroy({ where: { id: req.params.id } })
+        .then(() => res.status(200).json({ message: "Utilisateur supprimé" }))
         .catch((error) => res.status(400).json({ error }));
 };

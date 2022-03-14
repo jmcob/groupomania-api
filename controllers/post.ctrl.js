@@ -24,7 +24,7 @@ exports.getOne = async (req, res, next) => {
 };
 
 exports.delete = async (req, res, next) => {
-    if (req.body.posterId === req.body.userId) {
+    if (req.body.poster_id === req.body.user_id || req.body.admin === true) {
         await Post.destroy({ where: { id: req.params.id } })
             .then(() => res.status(200).json({ message: "Post supprimé" }))
             .catch((error) => res.status(400).json({ error }));
@@ -32,7 +32,7 @@ exports.delete = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-    if (req.body.posterId === req.body.userId) {
+    if (req.body.poster_id === req.body.user_id || req.body.admin === true) {
         const updatedPost = await Post.findOne({
             where: { id: req.params.id },
         });
