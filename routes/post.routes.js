@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const postCtrl = require("../controllers/post.ctrl");
 const auth = require("../middleware/auth");
+const multer = require("../middleware/multer-config");
 
 // route for login and signup : user.
 router.post("/", auth, postCtrl.new);

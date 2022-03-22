@@ -6,6 +6,9 @@ exports.new = async (req, res, next) => {
         title: req.body.title,
         text: req.body.text,
         users_id: req.body.user_id,
+        // image: `${req.protocol}://${req.get("host")}/images/${
+        //     req.file.filename
+        // }`,
     })
         .then((data) => res.status(201).json({ data }))
         .catch((error) => res.status(400).json({ error }));

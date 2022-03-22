@@ -10,6 +10,7 @@ const likeRoutes = require("./routes/like.routes");
 const dotenv = require("dotenv").config();
 const { v4 } = require("uuid");
 const { Sequelize } = require("sequelize");
+const path = require("path");
 
 const sequelize = new Sequelize(
     "groupodb",
@@ -37,11 +38,6 @@ app.get("/api", (req, res) => {
     res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
 });
 
-app.get("/api/item/:slug", (req, res) => {
-    const { slug } = req.params;
-    res.end(`Item: ${slug}`);
-});
-
 const corsOptions = {
     origin: process.env.CLIENT_URL,
     credentials: true,
@@ -53,20 +49,10 @@ const corsOptions = {
 
 app.use(cors({ corsOptions }));
 
-app.get("/api", (req, res) => {
-    const path = `/api/item/${v4()}`;
-    res.setHeader("Content-Type", "text/html");
-    res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
-    res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-});
-
-app.get("/api/item/:slug", (req, res) => {
-    const { slug } = req.params;
-    res.end(`Item: ${slug}`);
-});
-
 app.use(helmet());
 app.use(express.json());
+
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
