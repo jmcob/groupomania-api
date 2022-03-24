@@ -2,14 +2,15 @@ const db = require("../models");
 const Post = db.post;
 
 exports.new = async (req, res, next) => {
-    await Post.create({
-        title: req.body.title,
-        text: req.body.text,
-        users_id: req.body.user_id,
-        // image: `${req.protocol}://${req.get("host")}/images/${
-        //     req.file.filename
-        // }`,
-    })
+    const newPost = JSON.parse(req.body.post);
+    console.log(newPost);
+    const post = await Post.create({
+        ...newPost,
+        image: `${req.protocol}://${req.get("host")}/images/${
+            req.file.filename
+        }`,
+    });
+    post.save()
         .then((data) => res.status(201).json({ data }))
         .catch((error) => res.status(400).json({ error }));
 };
