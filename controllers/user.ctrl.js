@@ -69,7 +69,7 @@ exports.login = async (req, res, next) => {
                                     },
                                     process.env.JWT,
                                     {
-                                        expiresIn: "24h",
+                                        expiresIn: "72h",
                                     }
                                 ),
                             });

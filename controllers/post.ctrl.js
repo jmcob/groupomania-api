@@ -2,7 +2,9 @@ const db = require("../models");
 const Post = db.post;
 
 exports.new = async (req, res, next) => {
-    const newPost = JSON.parse(req.body.post);
+    console.log(req.body);
+    const newPost = JSON.parse(JSON.parse(req.body.post));
+    console.log("newpost");
     console.log(newPost);
     const post = await Post.create({
         ...newPost,

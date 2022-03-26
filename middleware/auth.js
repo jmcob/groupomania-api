@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
         const exp = decodedToken.exp;
         const dateExp = new Date(exp * 1000);
         const dateNow = Date.now();
-        console.log(dateExp, dateNow);
+        // console.log(dateExp, dateNow);
         if (dateExp < dateNow) {
             throw "Token expired";
         }
