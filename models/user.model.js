@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             default: 0,
         },
+        avatar: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     });
     return User;
 };

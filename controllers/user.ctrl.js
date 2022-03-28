@@ -91,12 +91,19 @@ exports.getOne = async (req, res, next) => {
 };
 
 exports.updateOne = async (req, res, next) => {
-    const updatedUser = await User.findOne({ where: { id: req.params.id } });
-    updatedUser.username = req.body.username;
-    await updatedUser
-        .save()
-        .then((data) => res.status(200).json({ data }))
-        .catch((error) => res.status(400).json({ error }));
+    const updatedUser = JSON.parse(req.body.user);
+    const id = updatedUser.user_id;
+    const username = updatedUser.username;
+
+    const updtUser = await User.findOne({ where: { id: id } });
+    updtUser.username = username;
+    (updtUser.avatar = `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+    }`),
+        await updtUser
+            .save()
+            .then((data) => res.status(200).json({ data }))
+            .catch((error) => res.status(400).json({ error }));
 };
 
 exports.deleteOne = async (req, res, next) => {

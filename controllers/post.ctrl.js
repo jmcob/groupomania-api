@@ -2,10 +2,7 @@ const db = require("../models");
 const Post = db.post;
 
 exports.new = async (req, res, next) => {
-    console.log(req.body);
-    const newPost = JSON.parse(JSON.parse(req.body.post));
-    console.log("newpost");
-    console.log(newPost);
+    const newPost = JSON.parse(req.body.post);
     const post = await Post.create({
         ...newPost,
         image: `${req.protocol}://${req.get("host")}/images/${
