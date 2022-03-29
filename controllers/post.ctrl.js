@@ -3,15 +3,24 @@ const Post = db.post;
 
 exports.new = async (req, res, next) => {
     const newPost = JSON.parse(req.body.post);
-    const post = await Post.create({
-        ...newPost,
-        image: `${req.protocol}://${req.get("host")}/images/${
-            req.file.filename
-        }`,
-    });
-    post.save()
-        .then((data) => res.status(201).json({ data }))
-        .catch((error) => res.status(400).json({ error }));
+    if (req.file) {
+        const post = await Post.create({
+            ...newPost,
+            image: `${req.protocol}://${req.get("host")}/images/${
+                req.file.filename
+            }`,
+        });
+        post.save()
+            .then((data) => res.status(201).json({ data }))
+            .catch((error) => res.status(400).json({ error }));
+    } else {
+        const post = await Post.create({
+            ...newPost,
+        });
+        post.save()
+            .then((data) => res.status(201).json({ data }))
+            .catch((error) => res.status(400).json({ error }));
+    }
 };
 
 exports.getAll = async (req, res, next) => {

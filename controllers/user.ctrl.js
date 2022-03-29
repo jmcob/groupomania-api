@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const validator = require("email-validator");
 const db = require("../models");
 const User = db.user;
+const fs = require("fs");
 
 // User signup controller
 exports.signup = (req, res, next) => {
@@ -42,6 +43,7 @@ exports.login = async (req, res, next) => {
         where: { email: req.body.email },
     });
     const user_id = userToLog.id;
+    const admin = userToLog.admin;
     const passwordHash = userToLog.password;
 
     function login() {
@@ -66,10 +68,11 @@ exports.login = async (req, res, next) => {
                                 token: jwt.sign(
                                     {
                                         user_id: user_id,
+                                        admin: admin,
                                     },
                                     process.env.JWT,
                                     {
-                                        expiresIn: "72h",
+                                        expiresIn: "96h",
                                     }
                                 ),
                             });
@@ -95,15 +98,18 @@ exports.updateOne = async (req, res, next) => {
     const id = updatedUser.user_id;
     const username = updatedUser.username;
 
-    const updtUser = await User.findOne({ where: { id: id } });
-    updtUser.username = username;
-    (updtUser.avatar = `${req.protocol}://${req.get("host")}/images/${
-        req.file.filename
-    }`),
-        await updtUser
-            .save()
-            .then((data) => res.status(200).json({ data }))
-            .catch((error) => res.status(400).json({ error }));
+    const user2Update = await User.findOne({ where: { id: id } });
+    const filename = user2Update.avatar.split("/images/")[1];
+    fs.unlink(`images/${filename}`, async () => {
+        user2Update.username = username;
+        (user2Update.avatar = `${req.protocol}://${req.get("host")}/images/${
+            req.file.filename
+        }`),
+            await user2Update
+                .save()
+                .then((data) => res.status(200).json({ data }))
+                .catch((error) => res.status(400).json({ error }));
+    });
 };
 
 exports.deleteOne = async (req, res, next) => {
