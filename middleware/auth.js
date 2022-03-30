@@ -3,10 +3,6 @@ const jwt = require("jsonwebtoken");
 // middleware auth
 module.exports = (req, res, next) => {
     try {
-        const request = req.body.post;
-        console.log(request);
-        console.log("bravo");
-
         const token = req.headers.authorization.split(" ")[1];
         const decodedToken = jwt.verify(token, process.env.JWT);
         const user_id = decodedToken.user_id;
@@ -18,14 +14,12 @@ module.exports = (req, res, next) => {
         // if (dateExp < dateNow) {
         //     throw "Token expired";
         // }
+        console.log("bbb" + req.body.userId);
+        console.log("aaa" + req.body.user_id);
         if (admin === true) {
             next();
         }
-        if (
-            req.body.user_id &&
-            req.body.user_id !== user_id
-            // (request.users_id && request.users_id !== user_id)
-        ) {
+        if (req.body.user_id && req.body.user_id !== user_id) {
             throw "Invalid user ID";
         }
         next();

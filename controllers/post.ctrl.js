@@ -24,7 +24,7 @@ exports.new = async (req, res, next) => {
 };
 
 exports.getAll = async (req, res, next) => {
-    await Post.findAll({ limit: 7, order: [["createdAt", "DESC"]] })
+    await Post.findAll({ limit: 10, order: [["createdAt", "DESC"]] })
         .then((data) => res.status(200).json({ data }))
         .catch((error) => res.status(400).json({ error }));
 };
