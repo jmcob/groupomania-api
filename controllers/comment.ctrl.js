@@ -25,7 +25,7 @@ exports.getOne = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     await Comment.destroy({ where: { id: req.params.id } })
-        .then(() => res.status(200).json({ message: "Comment supprimé" }))
+        .then(() => res.status(200).json({ message: "Commentaire supprimé" }))
         .catch((error) => res.status(400).json({ error }));
 };
 

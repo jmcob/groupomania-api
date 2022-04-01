@@ -14,8 +14,7 @@ module.exports = (req, res, next) => {
         // if (dateExp < dateNow) {
         //     throw "Token expired";
         // }
-        console.log("bbb" + req.body.userId);
-        console.log("aaa" + req.body.user_id);
+
         if (admin === true) {
             next();
         }
