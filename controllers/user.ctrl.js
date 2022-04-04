@@ -101,16 +101,27 @@ exports.updateOne = async (req, res, next) => {
 
     const user2Update = await User.findOne({ where: { id: id } });
     const filename = user2Update.avatar.split("/images/")[1];
-    fs.unlink(`images/${filename}`, async () => {
+    if (filename !== "avatar/sun.png") {
+        fs.unlink(`images/${filename}`, async () => {
+            user2Update.username = username;
+            (user2Update.avatar = `${req.protocol}://${req.get(
+                "host"
+            )}/images/${req.file.filename}`),
+                await user2Update
+                    .save()
+                    .then((data) => res.status(200).json({ data }))
+                    .catch((error) => res.status(400).json({ error }));
+        });
+    } else {
         user2Update.username = username;
-        (user2Update.avatar = `${req.protocol}://${req.get("host")}/images/${
+        user2Update.avatar = `${req.protocol}://${req.get("host")}/images/${
             req.file.filename
-        }`),
-            await user2Update
-                .save()
-                .then((data) => res.status(200).json({ data }))
-                .catch((error) => res.status(400).json({ error }));
-    });
+        }`;
+        await user2Update
+            .save()
+            .then((data) => res.status(200).json({ data }))
+            .catch((error) => res.status(400).json({ error }));
+    }
 };
 
 exports.deleteOne = async (req, res, next) => {

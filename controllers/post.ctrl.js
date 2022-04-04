@@ -44,24 +44,23 @@ exports.delete = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-    console.log(req.body.newpost);
+    console.log(req.body.post);
     console.log(req.body);
-    const reqPost = JSON.parse(req.body.newpost);
+    const reqPost = JSON.parse(req.body.post);
     if (reqPost.poster_id === reqPost.user_id || reqPost.admin === true) {
         const updatedPost = await Post.findOne({
             where: { id: req.params.id },
         });
         const filename = updatedPost.image.split("/images/")[1];
         fs.unlink(`images/${filename}`, async () => {
-        updatedPost.text = reqPost.text
-        (updatedPost.image = `${req.protocol}://${req.get("host")}/images/${
-            req.file.filename
-        }`),
-        await updatedPost
-            .save()
-            .then((data) => res.status(200).json({ data }))
-            .catch((error) => res.status(400).json({ error }));
-            });
+            updatedPost.text = reqPost.text;
+            (updatedPost.image = `${req.protocol}://${req.get("host")}/images/${
+                req.file.filename
+            }`),
+                await updatedPost
+                    .save()
+                    .then((data) => res.status(200).json({ data }))
+                    .catch((error) => res.status(400).json({ error }));
+        });
     }
 };
-
