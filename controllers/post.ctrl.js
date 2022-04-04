@@ -1,5 +1,6 @@
 const db = require("../models");
 const Post = db.post;
+const fs = require("fs");
 
 exports.new = async (req, res, next) => {
     const newPost = JSON.parse(req.body.post);
