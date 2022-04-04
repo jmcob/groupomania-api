@@ -23,6 +23,7 @@ exports.signup = (req, res, next) => {
                     username: req.body.username,
                     password: hash,
                     admin: false,
+                    avatar: "http://localhost:3000/images/public/avatar/sun.png",
                 })
                     .then((data) =>
                         res.status(201).json({
