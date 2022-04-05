@@ -101,7 +101,8 @@ exports.updateOne = async (req, res, next) => {
     if (req.file) {
         const user2Update = await User.findOne({ where: { id: id } });
         const filename = user2Update.avatar.split("/images/")[1];
-        if (filename !== "avatar/sun.png") {
+        console.log(filename);
+        if (filename !== "public/avatar/sun.png") {
             fs.unlink(`images/${filename}`, async () => {
                 user2Update.username = username;
                 (user2Update.avatar = `${req.protocol}://${req.get(
