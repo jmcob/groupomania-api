@@ -37,10 +37,17 @@ exports.getOne = async (req, res, next) => {
 };
 
 exports.delete = async (req, res, next) => {
-    if (req.body.poster_id === req.body.user_id || req.body.admin === true) {
+    if (req.body.poster_id === req.body.user_id) {
         await Post.destroy({ where: { id: req.params.id } })
             .then(() => res.status(200).json({ message: "Post supprimé" }))
             .catch((error) => res.status(400).json({ error }));
+    }
+    if (req.body.admin === true) {
+        await Post.destroy({ where: { id: req.params.id } })
+            .then(() => res.status(200).json({ message: "Post supprimé" }))
+            .catch((error) => res.status(400).json({ error }));
+    } else {
+        return;
     }
 };
 
